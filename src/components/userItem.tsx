@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { updateUser } from '../utils/api';
 
 interface User {
@@ -12,9 +12,7 @@ interface User {
 }
 
 const UserItem: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
 
-    // Añadir validación antes de enviar
 
     const location = useLocation();
     const userData = location.state?.user as User;

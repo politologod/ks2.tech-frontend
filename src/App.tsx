@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import UserList from './components/UserList';
-import AddUser from './components/AddUser'; // Componente Modal
 import { getUsers } from './utils/api';
-
+import AddUserModal from './components/addUser';
 interface User {
-  id_autoincrement?: number;
+  id_autoincrement: number; 
   name: string;
   email: string;
   phone: string;
   address: string;
   createdAt: string;
+}
+interface UserListProps {
+  userlist: User[];
+  onUserDeleted?: () => void;
 }
 
 function App() {
@@ -46,7 +49,7 @@ function App() {
       <AddUser
         isOpen={isModalOpen} 
         onClose={toggleModal} 
-        onSubmit={() => setRefresh(!refresh)} // Actualiza la lista de usuarios
+        onSubmit={() => setRefresh(!refresh)}
       />
     </div>
   );

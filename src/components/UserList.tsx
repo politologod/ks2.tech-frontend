@@ -8,7 +8,7 @@ import { FaEye } from "react-icons/fa";
 
 
 interface User {
-    id_autoincrement: number; // <-- Este debe ser el campo correcto
+    id_autoincrement: number; 
     name: string;
     email: string;
     phone: string;
