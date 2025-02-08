@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-//import { getUserById, getUsers, updateUser, createUser, deleteUser } from "../../utils/usersUtils";
+import { formatCreatedAt } from "../utils/api";
 
 interface Users {
     id: number;
@@ -12,26 +12,17 @@ interface Users {
 
 
 
-const UserList = () => {
+const UserList = ({userlist}: Users) => {
 
-    const [users, setUsers] = useState<Users[]>([]);
 
-        useEffect(() => {
-            const fetchUsers = async () => {
-                const users = await getUsers();
-                setUsers(users);
-                console.log(users);
-            }
-            
-            fetchUsers();
-        }, []);
+
 
     return (
         <div className="container-fluid">
-            <h3 className="text-dark mb-4">Team</h3>
+            <h3 className="text-dark mb-4">Users</h3>
             <div className="card shadow">
                 <div className="card-header py-3">
-                    <p className="text-primary m-0 fw-bold">Employee Info</p>
+                    <p className="text-primary m-0 fw-bold">Users Info</p>
                 </div>
                 <div className="card-body">
                     <div className="row">
@@ -74,23 +65,15 @@ const UserList = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {employees.map((employee, index) => (
+                                {users.map((user, index) => (
                                     <tr key={index}>
                                         <td>
-                                            <img
-                                                className="rounded-circle me-2"
-                                                width="30"
-                                                height="30"
-                                                src={employee.image}
-                                                alt={employee.name}
-                                            />
-                                            {employee.name}
+                                            {user.name}
                                         </td>
-                                        <td>{employee.position}</td>
-                                        <td>{employee.office}</td>
-                                        <td>{employee.age}</td>
-                                        <td>{employee.startDate}</td>
-                                        <td>{employee.salary}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.phone}</td>
+                                        <td>{user.address}</td>
+                                        <td>{formatCreatedAt(user.createdAt)}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -98,10 +81,9 @@ const UserList = () => {
                                 <tr>
                                     <td><strong>Name</strong></td>
                                     <td><strong>Email</strong></td>
-                                    <td><strong>Phone</strong></td> 
-                                    <td><strong>Age</strong></td>
-                                    <td><strong>Start date</strong></td>
-                                    <td><strong>Salary</strong></td>
+                                    <td><strong>Phone</strong></td>
+                                    <td><strong>Address</strong></td>
+                                    <td><strong>CreatedAt</strong></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -110,7 +92,7 @@ const UserList = () => {
                     <div className="row">
                         <div className="col-md-6 align-self-center">
                             <p className="dataTables_info">
-                                Showing 1 to 10 of {employees.length}
+                                Showing 1 to 10 of {users.length}
                             </p>
                         </div>
                         <div className="col-md-6">
@@ -145,4 +127,4 @@ const UserList = () => {
     );
 }
 
-export default Main;
+export default UserList;
