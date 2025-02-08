@@ -7,7 +7,7 @@ interface AddUserModalProps {
     onSubmit: () => void;
 }
 
-const AddUser: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -32,14 +32,14 @@ const AddUser: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => 
                 address: formData.address,
                 createdAt: new Date().toISOString(),
             });
-            onSubmit(); // Llamar a la función del padre para refrescar la lista de usuarios
-            onClose(); // Cerrar el modal después de la creación
+            onSubmit(); 
+            onClose(); 
         } catch {
             alert('Error creando usuario');
         }
     };
 
-    if (!isOpen) return null; // Si el modal no está abierto, no renderiza nada
+    if (!isOpen) return null; 
 
     return (
         <div className="modal fade show d-block" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -106,4 +106,4 @@ const AddUser: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => 
     );
 };
 
-export default AddUser;
+export default AddUserModal;

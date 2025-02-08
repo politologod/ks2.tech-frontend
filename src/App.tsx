@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react';
 import UserList from './components/UserList';
 import { getUsers } from './utils/api';
-import AddUserModal from './components/addUser';
+import AddUserModal from './components/AddUserModal';
 interface User {
-  id_autoincrement: number; 
+  id_autoincrement: number;
   name: string;
   email: string;
   phone: string;
   address: string;
   createdAt: string;
-}
-interface UserListProps {
-  userlist: User[];
-  onUserDeleted?: () => void;
 }
 
 function App() {
@@ -42,13 +38,13 @@ function App() {
         </button>
       </div>
 
-      {/* Lista de usuarios */}
+
       <UserList userlist={users} />
 
-      {/* Modal de creación de usuario */}
-      <AddUser
-        isOpen={isModalOpen} 
-        onClose={toggleModal} 
+
+      <AddUserModal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
         onSubmit={() => setRefresh(!refresh)}
       />
     </div>
