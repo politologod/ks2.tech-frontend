@@ -10,6 +10,7 @@ interface Users {
   address: string;
 }
 
+
 function App() {
 
     const [users, setUsers] = useState<Users[]>([]);
@@ -18,11 +19,12 @@ function App() {
             const fetchUsers = async () => {
                 const users = await getUsers();
                 setUsers(users);
+                localStorage.setItem('users', JSON.stringify(users));
                 console.log(users);
             }
             
             fetchUsers();
-        }, []);
+        }, [setUsers]);
 
 
 

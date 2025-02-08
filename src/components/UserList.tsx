@@ -1,21 +1,25 @@
-import { useEffect, useState } from "react";
+
 import { formatCreatedAt } from "../utils/api";
+import {useNavigate} from "react-router";
+
+
+import { FaEye } from "react-icons/fa";
 
 interface Users {
+    userlist: Users[];
     id: number;
     name: string;
     email: string;
-    phone  : string;
-    createdAt : string;
+    phone: string;
+    createdAt: string;
     address: string;
 }
 
 
 
-const UserList = ({userlist}: Users) => {
+const UserList = ({ userlist }: Users) => {
 
-
-
+    const navigate = useNavigate();
 
     return (
         <div className="container-fluid">
@@ -61,7 +65,8 @@ const UserList = ({userlist}: Users) => {
                                     <th>Phone</th>
                                     <th>Created At</th>
                                     <th>Address</th>
-                                    
+                                    <th>view</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,6 +79,17 @@ const UserList = ({userlist}: Users) => {
                                         <td>{user.phone}</td>
                                         <td>{formatCreatedAt(user.createdAt)}</td>
                                         <td>{user.address}</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-primary btn-sm"
+                                                onClick={() => {navigate(`/useritem/${user.index}`, {state: {user}} )  } }
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#userDetailModal"
+                                            >
+                                                <FaEye />
+                                            </button>
+                                        </td>
+
                                     </tr>
                                 ))}
                             </tbody>
@@ -84,6 +100,7 @@ const UserList = ({userlist}: Users) => {
                                     <td><strong>Phone</strong></td>
                                     <td><strong>Address</strong></td>
                                     <td><strong>CreatedAt</strong></td>
+                                    <td><strong>view</strong></td>
                                 </tr>
                             </tfoot>
                         </table>

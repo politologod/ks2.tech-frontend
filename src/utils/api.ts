@@ -11,7 +11,7 @@ interface Users {
 
 const api = axios.create({
 	baseURL: "http://localhost:777/api/users",
-	withCredentials: true,
+    //	withCredentials: true,
 });
 
 export const getUserById = async (id: number) => {
@@ -29,13 +29,13 @@ export const createUser = async (data: Users) => {
 	return response.data;
 };
 
-export const updateUser = async (id: number, data: Users) => {
-	const response = await api.put(`/:${id}`, data);
-	return response.data;
+export const updateUser = async (id: number, data: Partial<Users>) => {
+    const response = await api.put(`/${id}`, data); // Usar ruta correcta
+    return response.data;
 };
 
 export const deleteUser = async (id: number) => {
-	const response = await api.delete(`/:${id}`);
+	const response = await api.delete(`/${id}`);
 	return response.data;
 };
 export const formatCreatedAt = (date: any) => {
