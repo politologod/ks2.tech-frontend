@@ -65,15 +65,15 @@ const UserList = ({userlist}: Users) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map((user, index) => (
+                                {userlist.map((user: any, index: any) => (
                                     <tr key={index}>
                                         <td>
                                             {user.name}
                                         </td>
                                         <td>{user.email}</td>
                                         <td>{user.phone}</td>
-                                        <td>{user.address}</td>
                                         <td>{formatCreatedAt(user.createdAt)}</td>
+                                        <td>{user.address}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -92,7 +92,7 @@ const UserList = ({userlist}: Users) => {
                     <div className="row">
                         <div className="col-md-6 align-self-center">
                             <p className="dataTables_info">
-                                Showing 1 to 10 of {users.length}
+                                Showing 1 to 10 of {userlist.length}
                             </p>
                         </div>
                         <div className="col-md-6">
