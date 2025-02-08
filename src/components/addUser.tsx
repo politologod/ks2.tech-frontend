@@ -1,112 +1,109 @@
 import React, { useState } from 'react';
 import { createUser } from '../utils/api';
 
-interface User {
-    id_autoincrement?: number;
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    createdAt: string;
+interface AddUserModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: () => void;
 }
 
-interface AddUserProps {
-    userData: User;
-}
+const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+    });
 
-const AddUser = ({ userData }: AddUserProps) => {
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [phone, setPhone] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
-
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Lógica para enviar los datos
-        createUser({ id: 0, name, email, phone, address, createdAt: '' });
-        setShowModal(false); // Cerrar el modal después de enviar
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    return (
-        <div>
-            {/* Botón para abrir el modal */}
-            <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-                Open User Modal
-            </button>
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-            {/* Modal */}
-            <div className={`modal fade ${showModal ? 'show' : ''}`} tabIndex={-1} style={{ display: showModal ? 'block' : 'none' }} aria-labelledby="userModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="userModalLabel">Create User</h5>
-                            <button type="button" className="btn-close" onClick={() => setShowModal(false)} aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="card shadow mb-3">
-                                <div className="card-header py-3">
-                                    <p className="text-primary m-0 fw-bold">User Settings</p>
-                                </div>
-                                <div className="card-body">
-                                    <form className="user" onSubmit={handleSubmit}>
-                                        <div className="mb-3">
-                                            <input
-                                                className="form-control form-control-user"
-                                                type="text"
-                                                value={name}
-                                                placeholder={userData.name}
-                                                onChange={(e) => setName(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="mb-3">
-                                            <input
-                                                className="form-control form-control-user"
-                                                type="email"
-                                                value={email}
-                                                placeholder={userData.email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="mb-3">
-                                            <input
-                                                className="form-control form-control-user"
-                                                type="text"
-                                                value={phone}
-                                                placeholder={userData.phone}
-                                                onChange={(e) => setPhone(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="mb-3">
-                                            <input
-                                                className="form-control form-control-user"
-                                                type="text"
-                                                value={address}
-                                                placeholder={userData.address}
-                                                onChange={(e) => setAddress(e.target.value)}
-                                            />
-                                        </div>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-primary btn-user w-100"
-                                        >
-                                            Create User
-                                        </button>
-                                    </form>
-                                </div>
+        try {
+            await createUser({
+                id_autoincrement: 0,
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                address: formData.address,
+                createdAt: new Date().toISOString(),
+            });
+            onSubmit(); // Llamar a la función del padre para refrescar la lista de usuarios
+            onClose(); // Cerrar el modal después de la creación
+        } catch {
+            alert('Error creando usuario');
+        }
+    };
+
+    if (!isOpen) return null; // Si el modal no está abierto, no renderiza nada
+
+    return (
+        <div className="modal fade show d-block" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Nuevo Usuario</h5>
+                        <button type="button" className="btn-close" onClick={onClose}></button>
+                    </div>
+
+                    <div className="modal-body">
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <input
+                                    className="form-control"
+                                    name="name"
+                                    placeholder="Name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
-                        </div>
+
+                            <div className="mb-3">
+                                <input
+                                    className="form-control"
+                                    type="email"
+                                    name="email"
+                                    placeholder="Correo electrónico"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <input
+                                    className="form-control"
+                                    name="phone"
+                                    placeholder="Phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <input
+                                    className="form-control"
+                                    name="address"
+                                    placeholder="Address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <button className="btn btn-primary w-100">Create</button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            {/* Backdrop */}
-            {showModal && (
-                <div className="modal-backdrop fade show" onClick={() => setShowModal(false)}></div>
-            )}
         </div>
     );
 };
 
-export default AddUser;
+export default AddUserModal;
