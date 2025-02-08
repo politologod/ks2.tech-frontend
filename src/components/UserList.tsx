@@ -1,25 +1,39 @@
 
-import { formatCreatedAt } from "../utils/api";
-import {useNavigate} from "react-router";
-
+import { deleteUser, formatCreatedAt, } from "../utils/api";
+import { useNavigate } from "react-router";
+import { CiTrash } from "react-icons/ci";
 
 import { FaEye } from "react-icons/fa";
 
-interface Users {
-    userlist: Users[];
-    id: number;
+
+
+interface User {
+    id_autoincrement: number; // <-- Este debe ser el campo correcto
     name: string;
     email: string;
     phone: string;
-    createdAt: string;
     address: string;
+    createdAt: string;
+}
+interface UserListProps {
+    userlist: User[];
+    onUserDeleted?: () => void;
 }
 
-
-
-const UserList = ({ userlist }: Users) => {
-
+const UserList = ({ userlist, onUserDeleted }: UserListProps) => {
     const navigate = useNavigate();
+
+    const handlingDelete = async (id: number) => {
+        try {
+            await deleteUser(id);
+            if (onUserDeleted) {
+                onUserDeleted(); // Actualizar lista padre
+            }
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    }
+
 
     return (
         <div className="container-fluid">
@@ -66,6 +80,7 @@ const UserList = ({ userlist }: Users) => {
                                     <th>Created At</th>
                                     <th>Address</th>
                                     <th>view</th>
+                                    <th>Delete</th>
 
                                 </tr>
                             </thead>
@@ -82,14 +97,29 @@ const UserList = ({ userlist }: Users) => {
                                         <td>
                                             <button
                                                 className="btn btn-primary btn-sm"
-                                                onClick={() => {navigate(`/useritem/${user.index}`, {state: {user}} )  } }
+                                                onClick={() => { navigate(`/useritem/${user.id_autoincrement}`, { state: { user } }) }}
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#userDetailModal"
                                             >
                                                 <FaEye />
                                             </button>
                                         </td>
-
+                                        <td>
+                                            <button
+                                                className="btn btn-danger btn-sm"
+                                                onClick={() => {
+                                                    if (user.id_autoincrement) {
+                                                        handlingDelete(user.id_autoincrement);
+                                                    } else {
+                                                        console.error("ID no válido");
+                                                    }
+                                                }}
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#userDetailModal"
+                                            >
+                                                <CiTrash />
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -101,6 +131,7 @@ const UserList = ({ userlist }: Users) => {
                                     <td><strong>Address</strong></td>
                                     <td><strong>CreatedAt</strong></td>
                                     <td><strong>view</strong></td>
+                                    <td><strong>Delete</strong></td>
                                 </tr>
                             </tfoot>
                         </table>

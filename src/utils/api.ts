@@ -1,12 +1,12 @@
 import axios from "axios";
 
 interface Users {
-	id: number;
-	name: string;
-	email: string;
-	phone: string;
-	createdAt: string;
-	address: string;
+    id_autoincrement: number; // Campo principal
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    createdAt?: string;
 }
 
 const api = axios.create({
@@ -15,8 +15,8 @@ const api = axios.create({
 });
 
 export const getUserById = async (id: number) => {
-	const response = await api.get(`/:${id}`);
-	return response.data;
+    const response = await api.get(`/${id}`);
+    return response.data;
 };
 
 export const getUsers = async () => {

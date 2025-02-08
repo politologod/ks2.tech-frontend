@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router';
+import { useParams, useLocation, useNavigate } from 'react-router';
 import { updateUser } from '../utils/api';
 
 interface User {
@@ -18,7 +18,7 @@ const UserItem: React.FC = () => {
 
     const location = useLocation();
     const userData = location.state?.user as User;
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState<string>(userData?.email || '');
     const [address, setAddress] = useState<string>(userData?.address || '');
     const [phone, setPhone] = useState<string>(userData?.phone || '');
@@ -37,22 +37,22 @@ const UserItem: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            if (!userData?.id_autoincrement) {
+                throw new Error("ID de usuario no válido");
+            }
+            
             const response = await updateUser(userData.id_autoincrement, {
                 email,
                 address,
                 phone,
                 name,
-
             });
             console.log('Update successful:', response);
+            navigate('/');
         } catch (error) {
             console.error('Update failed:', error);
         }
     };
-
-    if (!userData) {
-        return <div>Usuario no encontrado</div>;
-    }
 
     return (
         <div className="container-fluid">
@@ -106,6 +106,7 @@ const UserItem: React.FC = () => {
                                         <button
                                             type="submit"
                                             className="btn btn-primary btn-user w-100"
+                                            onClick={() => {alert('User updated')}}
                                         >
                                             Update User
                                         </button>
