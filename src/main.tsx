@@ -5,18 +5,32 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import App from './App.tsx'
 import Layout from './components/layout/Layout.tsx'
 import NotFound from './components/NotFound.tsx'
-import UserItem from './components/userItem.tsx'
-
+import UserItem from './components/UserItem.tsx'
+import AuthLayout from './components/layout/AuthLayout.tsx'
+import Login from './components/login/Login.tsx'
+import Register from './components/register/Register.tsx'
+import { AuthProvider } from './context/AuthContext.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout  />}>
-          <Route path="/" element={<App />} />
-          <Route path='*' element={<NotFound />} />
-          <Route path='/useritem/:id' element={<UserItem />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+
+      <BrowserRouter>
+        <Routes>
+
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+
+          <Route path="/auth" element={<AuthLayout />}>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<App />} />
+              <Route path='*' element={<NotFound />} />
+              <Route path='/useritem/:id' element={<UserItem />} />
+            </Route>
+          </Route>
+
+        </Routes>
+      </BrowserRouter>
+      
+    </AuthProvider>
   </StrictMode>,
 )

@@ -12,7 +12,7 @@ interface Users {
 }
 
 const url : string = `${import.meta.env.VITE_API}/users`;
-const api = axios.create({
+export const api = axios.create({
 	baseURL: url, // Usar variable de entorno
    // withCredentials: true,
 	headers: {
