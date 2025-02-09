@@ -24,24 +24,23 @@ const UserList = ({ userlist, onUserDeleted }: UserListProps) => {
     const navigate = useNavigate();
     const [searchByName, setSearchByName] = useState<string>('');
     const [filteredUsers, setFilteredUsers] = useState<User[]>(userlist);
-    const [isFiltered, setIsFiltered] = useState<boolean>(false);
 
 const handlingSearch = (searchTerm: string) => {
     const filtering = userlist.filter((user) => {
         return user.name.toLowerCase().includes(searchTerm.toLowerCase());
     });
     setFilteredUsers(filtering);
-    setIsFiltered(true);
+    
 }
 
     useEffect(() => {
         if (searchByName === '') {
-            setIsFiltered(false);
             setFilteredUsers(userlist);
         } else {
             handlingSearch(searchByName);
         }
-    }, [searchByName, userlist, setIsFiltered, setFilteredUsers]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchByName, userlist, setFilteredUsers]);
 
     const handlingDelete = async (id: number) => {
         try {
