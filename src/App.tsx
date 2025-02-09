@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import UserList from './components/UserList';
 import { getUsers } from './utils/api';
-import AddUserModal from './components/AddUserModal';
+import Modal from './components/Modal';
 interface User {
   id_autoincrement: number;
   name: string;
@@ -42,7 +42,7 @@ function App() {
       <UserList userlist={users} />
 
 
-      <AddUserModal
+      <Modal
         isOpen={isModalOpen}
         onClose={toggleModal}
         onSubmit={() => setRefresh(!refresh)}

@@ -7,7 +7,7 @@ interface AddUserModalProps {
     onSubmit: () => void;
 }
 
-const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const Modal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -103,4 +103,4 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }
     );
 };
 
-export default AddUserModal;
+export default Modal;
