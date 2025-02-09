@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { deleteUser, formatCreatedAt, } from "../utils/api";
+import { deleteUser, formatCreatedAt, getUsers, } from "../utils/api";
 import { useNavigate } from "react-router";
 import { CiTrash } from "react-icons/ci";
 
@@ -17,10 +17,9 @@ interface User {
 }
 interface UserListProps {
     userlist: User[];
-    onUserDeleted?: () => void;
 }
 
-const UserList = ({ userlist, onUserDeleted }: UserListProps) => {
+const UserList = ({ userlist }: UserListProps) => {
     const navigate = useNavigate();
     const [searchByName, setSearchByName] = useState<string>('');
     const [filteredUsers, setFilteredUsers] = useState<User[]>(userlist);
@@ -40,17 +39,13 @@ const handlingSearch = (searchTerm: string) => {
             handlingSearch(searchByName);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchByName, userlist, setFilteredUsers]);
+    }, [searchByName, userlist, setFilteredUsers, ]);
 
     const handlingDelete = async (id: number) => {
-        try {
-            await deleteUser(id);
-            if (onUserDeleted) {
-                onUserDeleted(); // Actualizar lista padre
-            }
-        } catch (error) {
-            console.error("Error deleting user:", error);
-        }
+        await deleteUser(id);
+        const users = await getUsers();
+        setFilteredUsers(users);
+
     }
 
 
@@ -130,7 +125,9 @@ const handlingSearch = (searchTerm: string) => {
                                                 className="btn btn-danger btn-sm"
                                                 onClick={() => {
                                                     if (user.id_autoincrement) {
+                                                        alert("User deleted successfully");
                                                         handlingDelete(user.id_autoincrement);
+
                                                     } else {
                                                         console.error("ID no válido");
                                                     }
