@@ -16,9 +16,8 @@ const Login: React.FC = () => {
         });
     
         try {
-            await api.post(`${import.meta.env.VITE_API}/auth/login`, { email, password });
-    
-            await login(); // Revalida el estado inmediatamente después del login
+            await api.post(`${import.meta.env.VITE_API}/auth/login`, { email, password }, { withCredentials: true });
+            await login(); 
             navigate('/crud'); // Redirige después de confirmar autenticación
         } catch (error) {
             console.error('Error en login:', error);

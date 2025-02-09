@@ -19,7 +19,7 @@ const Register: React.FC = () => {
             withCredentials: true
         });
         try {
-            await api.post(`${import.meta.env.VITE_API}/auth/register`, { email, password, address, phone, name });
+            await api.post(`${import.meta.env.VITE_API}/auth/register`, { email, password, address, phone, name }, { withCredentials: true });
             await login();
             navigate('/crud');
         } catch (error: any) {
