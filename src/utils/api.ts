@@ -14,7 +14,7 @@ interface Users {
 const url : string = `${import.meta.env.VITE_API}/users`;
 export const api = axios.create({
 	baseURL: url, // Usar variable de entorno
-   // withCredentials: true,
+	withCredentials: true,
 	headers: {
 		'Content-Type': 'application/json',
 		

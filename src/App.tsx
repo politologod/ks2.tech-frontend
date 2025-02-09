@@ -14,7 +14,7 @@ interface User {
 function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [refresh, setRefresh] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   // Función para cargar usuarios
   const loadUsers = async () => {
@@ -22,16 +22,16 @@ function App() {
     setUsers(data);
   };
 
-  // Cargar usuarios al inicio y cuando cambie 'refresh'
+
   useEffect(() => {
     loadUsers();
   }, [refresh]);
 
-  const toggleModal = () => setIsModalOpen(!isModalOpen); // Función para abrir/cerrar el modal
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   return (
     <div className="container mt-4">
-      {/* Botón de crear usuario */}
+      
       <div className="mb-4">
         <button className="btn btn-success" onClick={toggleModal}>
           Crear Nuevo Usuario

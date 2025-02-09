@@ -20,9 +20,9 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
 
-          <Route path="/auth" element={<AuthLayout />}>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={<App />} />
+          <Route element={<AuthLayout />}>
+            <Route element={<Layout />}>
+              <Route path="/crud" element={<App />} />
               <Route path='*' element={<NotFound />} />
               <Route path='/useritem/:id' element={<UserItem />} />
             </Route>
