@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from "react";
 import { deleteUser, formatCreatedAt, } from "../utils/api";
 import { useNavigate } from "react-router";
 import { CiTrash } from "react-icons/ci";
@@ -22,6 +22,26 @@ interface UserListProps {
 
 const UserList = ({ userlist, onUserDeleted }: UserListProps) => {
     const navigate = useNavigate();
+    const [searchByName, setSearchByName] = useState<string>('');
+    const [filteredUsers, setFilteredUsers] = useState<User[]>(userlist);
+    const [isFiltered, setIsFiltered] = useState<boolean>(false);
+
+const handlingSearch = (searchTerm: string) => {
+    const filtering = userlist.filter((user) => {
+        return user.name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    setFilteredUsers(filtering);
+    setIsFiltered(true);
+}
+
+    useEffect(() => {
+        if (searchByName === '') {
+            setIsFiltered(false);
+            setFilteredUsers(userlist);
+        } else {
+            handlingSearch(searchByName);
+        }
+    }, [searchByName, userlist, setIsFiltered, setFilteredUsers]);
 
     const handlingDelete = async (id: number) => {
         try {
@@ -62,6 +82,8 @@ const UserList = ({ userlist, onUserDeleted }: UserListProps) => {
                                 <label className="form-label">
                                     <input
                                         type="search"
+                                        onChange={(e) => setSearchByName(e.target.value)}
+                                        value={searchByName}
                                         className="form-control form-control-sm"
                                         placeholder="Search"
                                     />
@@ -85,7 +107,7 @@ const UserList = ({ userlist, onUserDeleted }: UserListProps) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {userlist.map((user: any, index: any) => (
+                                {  filteredUsers.map((user: any, index: any) => (
                                     <tr key={index}>
                                         <td>
                                             {user.name}

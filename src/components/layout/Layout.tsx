@@ -1,6 +1,7 @@
 import React from 'react';
 import {Outlet, useNavigate} from 'react-router';
 import { useAuth } from '../../context/AuthContext';
+ 
 const Layout: React.FC = () => {
     const { logout } = useAuth();
     const navigate = useNavigate();
