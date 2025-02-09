@@ -46,7 +46,7 @@ const UserItem: React.FC = () => {
                 name,
             });
             console.log('Update successful:', response);
-            navigate('/');
+            navigate('/crud');
         } catch (error) {
             console.error('Update failed:', error);
         }

@@ -1,22 +1,30 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router';
+import { useAuth } from '../../context/AuthContext';
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [rememberMe, setRememberMe] = useState<boolean>(false);
     const navigate = useNavigate();
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const { login } = useAuth();
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios.post(`${import.meta.env.VITE_API}/auth/login`, { email, password }
-        ).then((response) => {
-            console.log(response)
-            navigate('/');
-        }).catch((error) => {
-            console.log(error)
+        const api = axios.create({
+            baseURL: import.meta.env.VITE_API,
+            withCredentials: true
+        });
+    
+        try {
+            await api.post(`${import.meta.env.VITE_API}/auth/login`, { email, password });
+    
+            await login(); // Revalida el estado inmediatamente después del login
+            navigate('/crud'); // Redirige después de confirmar autenticación
+        } catch (error) {
+            console.error('Error en login:', error);
         }
-        )
     };
+    
 
 
     return (
