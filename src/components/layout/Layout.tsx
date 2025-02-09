@@ -1,6 +1,13 @@
 import React from 'react';
-import {Outlet} from 'react-router';
+import {Outlet, useNavigate} from 'react-router';
+import { useAuth } from '../../context/AuthContext';
 const Layout: React.FC = () => {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
+    }
     return (
         <div id="page-top">
             <div id="wrapper">
@@ -31,9 +38,9 @@ const Layout: React.FC = () => {
                             </li>
 
                             <li className="nav-item">
-                                <a className="nav-link" href="/login">
+                                <a className="nav-link" onClick={handleLogout}>
                                     <i className="far fa-user-circle"></i>
-                                    <span>Login</span>
+                                    <span>Logout</span>
                                 </a>
                             </li>
                         </ul>

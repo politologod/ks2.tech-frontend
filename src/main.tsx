@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
 
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
 
           <Route element={<AuthLayout />}>
             <Route element={<Layout />}>
