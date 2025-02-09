@@ -1,8 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import {  useNavigate } from 'react-router';
-import { api } from '../../utils/api';
-
-
+import axios from 'axios';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -12,27 +10,26 @@ const Register: React.FC = () => {
     const [name, setName] = useState<string>('');
     const navigate = useNavigate();
 
-    // const { login } = useAuth();
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const response = await api.post('/auth/register', {
+        
+                axios.post(`${import.meta.env.VITE_API}/auth/register`, {
                 email,
                 password,
                 address,
                 phone,
                 name
-            })
+        }).then((response) => {
             if (response.status === 201) {
                 navigate('/');
             }
-        } catch (error: any) {
+        }).catch((error: any) => {
             if (error.response) {
                 console.error('Error registering:', error.response.data);
             } else {
                 console.error('Error registering:', error);
             }
-        }
+        });
 
         console.log({ email, password, address, phone, name });
     };

@@ -8,7 +8,7 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios.post(import.meta.env.VITE_API, { email, password }
+        axios.post(`${import.meta.env.VITE_API}/auth/login`, { email, password }
         ).then((response) => {
             console.log(response)
             navigate('/');
