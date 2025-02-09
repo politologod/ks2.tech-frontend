@@ -101,6 +101,11 @@ const Login: React.FC = () => {
                                                 </Link>
 
                                                 <hr />
+                                                
+                                                    <button className="btn text-decoration-none btn-primary d-block btn-google btn-user w-100 mb-2" type="button">
+                                                        <i className="fab fa-google"></i>&nbsp; Register with Google
+                                                    </button>
+                                                
                                             </form>
                                         </div>
                                     </div>

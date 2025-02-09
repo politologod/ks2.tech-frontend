@@ -7,19 +7,19 @@ const AuthLayout: React.FC = () => {
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [checked, setChecked] = useState(false);
-
+    const { login } = useAuth();
     useEffect(() => {
-        const checkAuth = async () => {
+        const checkAuths = async () => {
             // Esperar 500ms para dar tiempo a las cookies
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await login();
             
-            if (!isAuthenticated) {
-                navigate('/');
-            }
             setChecked(true);
+            if (!isAuthenticated) {
+                navigate('/login');
+            }
         };
+        checkAuths();
         
-        checkAuth();
     }, [isAuthenticated, navigate]);
 
     if (!checked) return <div>Verificando autenticación...</div>;

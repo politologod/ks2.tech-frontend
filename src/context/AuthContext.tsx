@@ -24,6 +24,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 console.log("this is the response on brute: ", response);
             if (response.ok) {
                 const data = await response.json();
+                console.log("this is the data on brute: ", data);
                 setIsAuthenticated(true);
                 setUserData(data.user);
             } else {

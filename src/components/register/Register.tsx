@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
-import {  useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -9,27 +10,25 @@ const Register: React.FC = () => {
     const [phone, setPhone] = useState<string>('');
     const [name, setName] = useState<string>('');
     const navigate = useNavigate();
+    const { login} = useAuth();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
-                axios.post(`${import.meta.env.VITE_API}/auth/register`, {
-                email,
-                password,
-                address,
-                phone,
-                name
-        }).then((response) => {
-            if (response.status === 201) {
-                navigate('/');
-            }
-        }).catch((error: any) => {
+        const api = axios.create({
+            baseURL: import.meta.env.VITE_API,
+            withCredentials: true
+        });
+        try {
+            await api.post(`${import.meta.env.VITE_API}/auth/register`, { email, password, address, phone, name });
+            await login();
+            navigate('/crud');
+        } catch (error: any) {
             if (error.response) {
                 console.error('Error registering:', error.response.data);
             } else {
                 console.error('Error registering:', error);
             }
-        });
+        }
 
         console.log({ email, password, address, phone, name });
     };
