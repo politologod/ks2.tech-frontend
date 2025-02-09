@@ -1,5 +1,7 @@
 import axios from "axios";
 
+
+
 interface Users {
     id_autoincrement: number; // Campo principal
     name: string;
@@ -9,8 +11,9 @@ interface Users {
     createdAt?: string;
 }
 
+const url : string = `${import.meta.env.VITE_API}/users`;
 const api = axios.create({
-	baseURL: "http://localhost:777/api/users",
+	baseURL: url, // Usar variable de entorno
     //	withCredentials: true,
 });
 
@@ -38,7 +41,7 @@ export const deleteUser = async (id: number) => {
 	const response = await api.delete(`/${id}`);
 	return response.data;
 };
-export const formatCreatedAt = (date: any) => {
+export const formatCreatedAt = (date: string | Date) => {
 	if (!date) return null; // Manejar valores nulos o indefinidos
 	return new Date(date).toLocaleString("es-ES", {
 		year: "numeric",
