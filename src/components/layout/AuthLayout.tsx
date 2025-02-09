@@ -15,7 +15,7 @@ const AuthLayout: React.FC = () => {
             
             setChecked(true);
             if (!isAuthenticated) {
-                navigate('/login');
+                navigate('/');
             }
         };
         checkAuths();

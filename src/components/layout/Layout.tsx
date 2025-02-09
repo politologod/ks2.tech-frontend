@@ -7,7 +7,7 @@ const Layout: React.FC = () => {
     const navigate = useNavigate();
     const handleLogout = async () => {
         await logout();
-        navigate('/');
+        navigate('/', { replace: true });
     }
     return (
         <div id="page-top">
