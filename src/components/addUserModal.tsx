@@ -8,29 +8,24 @@ interface AddUserModalProps {
 }
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-    });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+
+
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
             await createUser({
-                id_autoincrement: 0,
-                name: formData.name,
-                email: formData.email,
-                phone: formData.phone,
-                address: formData.address,
-                createdAt: new Date().toISOString(),
+                name: name,
+                email: email,
+                phone: phone,
+                address: address,
             });
             onSubmit(); 
             onClose(); 
@@ -57,8 +52,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }
                                     className="form-control"
                                     name="name"
                                     placeholder="Name"
-                                    value={formData.name}
-                                    onChange={handleChange}
+                                    value={name}
+                                    onChange={
+                                        (e) => setName(e.target.value)
+                                    }
                                     required
                                 />
                             </div>
@@ -68,9 +65,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }
                                     className="form-control"
                                     type="email"
                                     name="email"
-                                    placeholder="Correo electrónico"
-                                    value={formData.email}
-                                    onChange={handleChange}
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
                             </div>
@@ -80,8 +77,8 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }
                                     className="form-control"
                                     name="phone"
                                     placeholder="Phone"
-                                    value={formData.phone}
-                                    onChange={handleChange}
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                     required
                                 />
                             </div>
@@ -91,8 +88,8 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose, onSubmit }
                                     className="form-control"
                                     name="address"
                                     placeholder="Address"
-                                    value={formData.address}
-                                    onChange={handleChange}
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
                                     required
                                 />
                             </div>

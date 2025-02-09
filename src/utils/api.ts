@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 interface Users {
-    id_autoincrement: number; // Campo principal
+    id_autoincrement?: number; // Campo principal
     name: string;
     email: string;
     phone: string;
@@ -14,7 +14,11 @@ interface Users {
 const url : string = `${import.meta.env.VITE_API}/users`;
 const api = axios.create({
 	baseURL: url, // Usar variable de entorno
-    //	withCredentials: true,
+   // withCredentials: true,
+	headers: {
+		'Content-Type': 'application/json',
+		
+	},
 });
 
 export const getUserById = async (id: number) => {
@@ -28,8 +32,12 @@ export const getUsers = async () => {
 };
 
 export const createUser = async (data: Users) => {
-	const response = await api.post("/", data);
-	return response.data;
+	try {
+		const response = await api.post("/", data);
+		return response.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 export const updateUser = async (id: number, data: Partial<Users>) => {

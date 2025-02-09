@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import UserList from './components/UserList';
 import { getUsers } from './utils/api';
-import AddUserModal from './components/addUserModal';
+import AddUserModal from './components/AddUserModal';
 interface User {
   id_autoincrement: number;
   name: string;
